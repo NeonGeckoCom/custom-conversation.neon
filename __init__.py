@@ -29,12 +29,12 @@ import datetime
 import time
 
 from copy import deepcopy
-from adapt.intent import IntentBuilder
 from git import InvalidGitRepositoryError
 
-from mycroft.audio import wait_while_speaking
+from neon_utils.signal_utils import wait_for_signal_clear
 from ovos_bus_client import Message
-from mycroft.skills.core import intent_handler
+from ovos_workshop.decorators import intent_handler
+from ovos_workshop.intents import IntentBuilder
 from neon_utils.message_utils import get_message_user, request_from_mobile, request_for_neon, build_message
 from neon_utils.skills.neon_skill import NeonSkill
 from neon_utils.user_utils import get_user_prefs
@@ -43,10 +43,15 @@ from neon_utils.parse_utils import clean_quotes
 from ovos_utils import classproperty
 from ovos_utils.log import LOG
 from ovos_utils.process_utils import RuntimeRequirements
-from mycroft.util.parse import normalize
-from mycroft.util.audio_utils import play_audio_file
+from ovos_utils.sound import play_audio as play_audio_file
+from lingua_franca.parse import normalize
+
 
 from .utils_emulate import Conversation, ConversationManager
+
+
+def wait_while_speaking():
+    return wait_for_signal_clear("isSpeaking")
 
 # TIMEOUT = 8
 
